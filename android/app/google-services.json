@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "361129179339",
+    "project_id": "sellersapp-e5619",
+    "storage_bucket": "sellersapp-e5619.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:361129179339:android:2f57a448585de85fc1034e",
+        "android_client_info": {
+          "package_name": "com.example.ridersapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAU__sRleBl5zcmZU3Qbb8naYob8Zrnkk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:361129179339:android:31d78bc810df33f5c1034e",
+        "android_client_info": {
+          "package_name": "com.example.sellersapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDAU__sRleBl5zcmZU3Qbb8naYob8Zrnkk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
