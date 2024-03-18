@@ -110,6 +110,7 @@ flutter:
   assets:
   #   - images/a_dot_burr.jpeg
     - images/
+    - images/splash_screen/splash.jfif
   fonts:
     - family: Signatra
       fonts: 

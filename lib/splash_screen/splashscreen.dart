@@ -70,7 +70,8 @@ class _MySplashScreenState extends State<MySplashScreen>
               position: _offsetAnimation,
               child: Padding(
                 padding: const EdgeInsets.all(6.0),
-                child: Image.asset("images/sp3.png", height: 200),
+                child: Image.asset("images/splash_screen/splash.jfif",
+                    height: 200),
               ),
             ),
             const SizedBox(height: 10),

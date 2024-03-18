@@ -82,31 +82,32 @@ class _AuthScreenState extends State<AuthScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              colors: [
-                // Color(0xFF56B89F),
-                // Color(0xFF39F3BB),
-                // Colors.cyan,
-                Color(0xFF574BCD),
-                Color(0xFF2999AD),
-                Color(0xFF41E975),
-              ],
-            ),
-          ),
-        ),
+        // flexibleSpace: Container(
+        //   decoration: const BoxDecoration(
+        //     // gradient: LinearGradient(
+        //     //   begin: Alignment.topRight,
+        //     //   end: Alignment.bottomLeft,
+        //     //   colors: [
+        //     //     // Color(0xFF56B89F),
+        //     //     // Color(0xFF39F3BB),
+        //     //     // Colors.cyan,
+        //     //     Color(0xFF574BCD),
+        //     //     Color(0xFF2999AD),
+        //     //     Color(0xFF41E975),
+        //     //   ],
+        //     // ),
+        //   ),
+        // ),
         automaticallyImplyLeading: false,
         title: const Text(
           "FoodFlow",
           style: TextStyle(
             fontSize: 50,
-            color: Colors.black,
+            color: Colors.white,
             fontFamily: "Signatra",
           ),
         ),
+        backgroundColor: const Color.fromARGB(255, 60, 116, 164),
         centerTitle: true,
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(48.0),
@@ -128,7 +129,10 @@ class _AuthScreenState extends State<AuthScreen>
           gradient: LinearGradient(
             begin: Alignment.topRight,
             end: Alignment.bottomLeft,
-            colors: [Colors.black, Color(0xFF56B89F)],
+            colors: [
+              Color.fromRGBO(210, 217, 223, 1),
+              Color.fromRGBO(147, 187, 222, 1),
+            ],
           ),
         ),
         child: TabBarView(

@@ -103,7 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
             context: context,
             builder: (c) {
               return const ErrorDialoge(
-                message: "no record exists.",
+                message: "No record exists.",
               );
             });
       }
@@ -155,7 +155,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.yellow,
+              backgroundColor: Colors.black,
               padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
             ),
             onPressed: () {

@@ -91,25 +91,26 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              colors: [
-                Color(0xFF56B89F),
-                Color(0xFF39F3BB),
-                Colors.cyan,
-              ],
-            ),
-          ),
-        ),
+        // flexibleSpace: Container(
+        //   decoration: const BoxDecoration(
+        //     // gradient: LinearGradient(
+        //     //   begin: Alignment.topRight,
+        //     //   end: Alignment.bottomLeft,
+        //     //   colors: [
+        //     //     Color(0xFF56B89F),
+        //     //     Color(0xFF39F3BB),
+        //     //     Colors.cyan,
+        //     //   ],
+        //     // ),
+        //   ),
+        // ),
+        backgroundColor: const Color.fromARGB(255, 60, 116, 164),
         title: Text(
           // ignore: prefer_interpolation_to_compose_strings
           "Welcome " + sharedPreferences!.getString("name")!,
           style: const TextStyle(
-            fontSize: 30.0,
-            color: Colors.black,
+            fontSize: 50.0,
+            color: Colors.white,
             fontFamily: "Signatra",
             letterSpacing: 2,
           ),
@@ -123,8 +124,8 @@ class _HomeScreenState extends State<HomeScreen> {
             begin: Alignment.topRight,
             end: Alignment.bottomLeft,
             colors: [
-              Colors.black,
-              Color(0xFF56B89F),
+              Color.fromRGBO(210, 217, 223, 1),
+              Color.fromRGBO(147, 187, 222, 1),
             ],
           ),
         ),
@@ -138,8 +139,11 @@ class _HomeScreenState extends State<HomeScreen> {
               Icons.assignment,
               0,
               [
-                const Color(0xFFBE7ACA),
-                const Color(0xFF39F3BB),
+                // Color.fromARGB(255, 32, 18, 46),
+
+                //const Color(0xFF39F3BB),
+                const Color.fromARGB(255, 60, 116, 164),
+                const Color.fromARGB(255, 168, 198, 225),
                 const Color(0xFF77B5E9),
                 const Color(0xFF5A74C4),
               ],
@@ -151,7 +155,8 @@ class _HomeScreenState extends State<HomeScreen> {
               1,
               [
                 const Color(0xFFBE7ACA),
-                const Color(0xFF39F3BB),
+                // const Color(0xFF39F3BB),
+                const Color.fromARGB(255, 168, 198, 225),
                 const Color(0xFF77B5E9),
                 const Color(0xFF5A74C4),
               ],
@@ -164,7 +169,8 @@ class _HomeScreenState extends State<HomeScreen> {
               [
                 const Color(0xFFBE7ACA),
                 const Color(0xFF77B5E9),
-                const Color(0xFF39F3BB),
+                // const Color(0xFF39F3BB),
+                const Color.fromARGB(255, 168, 198, 225),
                 const Color(0xFF5A74C4),
               ],
               [0.0, 0.3, 0.7, 1.0],
@@ -176,7 +182,8 @@ class _HomeScreenState extends State<HomeScreen> {
               [
                 const Color(0xFFBE7ACA),
                 const Color(0xFF77B5E9),
-                const Color(0xFF39F3BB),
+                // const Color(0xFF39F3BB),
+                const Color.fromARGB(255, 168, 198, 225),
                 const Color(0xFF5A74C4),
               ],
               [0.0, 0.3, 0.7, 1.0],
@@ -186,7 +193,8 @@ class _HomeScreenState extends State<HomeScreen> {
               Icons.monetization_on,
               4,
               [
-                const Color(0xFF39F3BB),
+                // const Color(0xFF39F3BB),
+                const Color.fromARGB(255, 168, 198, 225),
                 const Color(0xFFBE7ACA),
                 const Color(0xFF77B5E9),
                 const Color(0xFF5A74C4),
@@ -198,7 +206,8 @@ class _HomeScreenState extends State<HomeScreen> {
               Icons.logout,
               5,
               [
-                const Color(0xFF39F3BB),
+                // const Color(0xFF39F3BB),
+                const Color.fromARGB(255, 168, 198, 225),
                 const Color(0xFFBE7ACA),
                 const Color(0xFF77B5E9),
                 const Color(0xFF5A74C4),

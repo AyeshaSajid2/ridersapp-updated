@@ -27,7 +27,7 @@ class _MySliderScreenState extends State<MySliderScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: const Color.fromARGB(255, 60, 116, 164),
       body: Stack(
         children: [
           CarouselSlider(
@@ -160,7 +160,7 @@ class _MySliderScreenState extends State<MySliderScreen> {
               style: const TextStyle(
                   fontSize: 34.0,
                   fontWeight: FontWeight.bold,
-                  color: Color(0xFF56B89F)),
+                  color: Colors.black),
             ),
             const SizedBox(height: 20.0),
             Text(
@@ -172,21 +172,21 @@ class _MySliderScreenState extends State<MySliderScreen> {
             if (isLastSlide)
               ElevatedButton(
                 onPressed: () {
-                  if (firebaseAuth.currentUser != null) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (c) => const HomeScreen()),
-                    );
-                  } else {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (c) => const AuthScreen()),
-                    );
-                  }
+                  // if (firebaseAuth.currentUser != null) {
+                  //   Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(builder: (c) => const HomeScreen()),
+                  //   );
+                  // } else {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (c) => const AuthScreen()),
+                  );
+                  // }
                 },
                 style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.all(
-                    const Color(0xFF56B89F),
+                    Colors.black,
                   ),
                 ),
                 child: const Text(
@@ -194,7 +194,7 @@ class _MySliderScreenState extends State<MySliderScreen> {
                   style: TextStyle(
                     fontFamily: 'Signatra',
                     fontSize: 20.0,
-                    color: Colors.black,
+                    color: Colors.white,
                   ),
                 ),
               ),

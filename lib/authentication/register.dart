@@ -299,7 +299,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
             style: ElevatedButton.styleFrom(
               // ignore: deprecated_member_use
-              backgroundColor: Colors.yellow,
+              backgroundColor: Colors.black,
               padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
             ),
             onPressed: () {
