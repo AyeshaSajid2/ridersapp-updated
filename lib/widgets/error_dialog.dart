@@ -17,7 +17,7 @@ class ErrorDialoge extends StatelessWidget {
           ),
           style: ElevatedButton.styleFrom(
             // ignore: deprecated_member_use
-            primary: Colors.red,
+            backgroundColor: Colors.red,
           ),
           onPressed: () {
             Navigator.pop(context);
