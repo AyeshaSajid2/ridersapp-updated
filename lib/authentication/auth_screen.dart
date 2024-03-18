@@ -40,6 +40,17 @@ class _AuthScreenState extends State<AuthScreen>
         //   left: Radius.circular(index == 0 ? 50.0 : 0.0),
         //   right: Radius.circular(index == 1 ? 50.0 : 0.0),
         // ),
+        gradient: _selectedIndex == index
+            ? const LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [
+                  Color(0xFF56B89F),
+                  Color(0xFF39F3BB),
+                  Colors.cyan,
+                ],
+              )
+            : null,
       ),
       child: InkWell(
         onTap: () {
@@ -82,7 +93,7 @@ class _AuthScreenState extends State<AuthScreen>
                 // Colors.cyan,
                 Color(0xFF574BCD),
                 Color(0xFF2999AD),
-                Color(0xFF41E975)
+                Color(0xFF41E975),
               ],
             ),
           ),

@@ -83,24 +83,24 @@ class _MySplashScreenState extends State<MySplashScreen>
                   color: Color(0xFFFDC652),
                   fontSize: 70,
                   fontFamily: "Signatra",
-                  letterSpacing: 3,
+                  letterSpacing: 1.5,
                 ),
               ),
             ),
             const Padding(
-              padding: EdgeInsets.all(20),
+              padding: EdgeInsets.all(10),
               child: Text(
                 "Pakistan's no#1 food ordering app",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color(0xFF56B89F),
-                  fontSize: 40,
-                  fontFamily: "Signatra",
+                  fontSize: 20,
+                  // fontFamily: "Signatra",
                   letterSpacing: 3,
                 ),
               ),
             ),
-            const SizedBox(height: 10), // Add space between text and button
+            const SizedBox(height: 20), // Add space between text and button
             ElevatedButton(
               onPressed: () {
                 // Navigate to the slider screen when the button is pressed
@@ -121,7 +121,7 @@ class _MySplashScreenState extends State<MySplashScreen>
                   color: Colors.white,
                   fontFamily: "Signatra",
                   letterSpacing: 2,
-                  fontSize: 35,
+                  fontSize: 30,
                 ),
               ),
             ),
@@ -132,16 +132,16 @@ class _MySplashScreenState extends State<MySplashScreen>
                   padding: const EdgeInsets.all(6.0),
                   child: Image.asset(
                     "images/sp.png",
-                    height: 140,
-                    width: 140,
+                    height: 100,
+                    width: 100,
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(6.0),
                   child: Image.asset(
                     "images/sp2.png",
-                    height: 140,
-                    width: 140,
+                    height: 100,
+                    width: 100,
                   ),
                 ),
               ],

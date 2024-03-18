@@ -51,7 +51,7 @@ class _MySliderScreenState extends State<MySliderScreen> {
               // Slide 1
               _buildSliderItem(
                 image: 'images/one.png',
-                imageSize: const Size(750, 450),
+                imageSize: const Size(250, 250),
                 heading: 'ORDER',
                 description: 'Discover thousands of restaurants',
               ),
@@ -59,7 +59,7 @@ class _MySliderScreenState extends State<MySliderScreen> {
               // Slide 2
               _buildSliderItem(
                 image: 'images/two.png',
-                imageSize: const Size(750, 400),
+                imageSize: const Size(250, 250),
                 heading: 'TRACK',
                 description: 'Stay safe with contactless delivery',
               ),
@@ -67,21 +67,21 @@ class _MySliderScreenState extends State<MySliderScreen> {
               // Slide 3
               _buildSliderItem(
                 image: 'images/three.png',
-                imageSize: const Size(400, 400),
+                imageSize: const Size(250, 250),
                 heading: 'Browse',
                 description: 'Shop from your favourite',
               ),
               // Slide 4
               _buildSliderItem(
                 image: 'images/four.png',
-                imageSize: const Size(400, 350),
+                imageSize: const Size(250, 250),
                 heading: 'Fast delivery',
                 description: 'Get what you need delivered fast',
               ),
               // Slide 5
               _buildSliderItem(
                 image: 'images/five.png',
-                imageSize: const Size(400, 400),
+                imageSize: const Size(250, 250),
                 heading: 'Safe delivery',
                 description: 'Cash on delivery',
                 isLastSlide: true,
@@ -168,6 +168,7 @@ class _MySliderScreenState extends State<MySliderScreen> {
               style: const TextStyle(fontSize: 24.0, color: Colors.white),
               textAlign: TextAlign.center,
             ),
+            const SizedBox(height: 40.0),
             if (isLastSlide)
               ElevatedButton(
                 onPressed: () {
