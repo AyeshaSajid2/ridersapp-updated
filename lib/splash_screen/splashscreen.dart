@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 // ignore: unused_import
 import 'package:ridersapp/authentication/auth_screen.dart';
 import 'package:ridersapp/splash_screen/slider.dart'; // Import your slider screen
-
 class MySplashScreen extends StatefulWidget {
-  const MySplashScreen({super.key});
+  // ignore: use_super_parameters
+  const MySplashScreen({Key? key}) : super(key: key);
 
   @override
   State<MySplashScreen> createState() => _MySplashScreenState();
@@ -13,142 +13,113 @@ class MySplashScreen extends StatefulWidget {
 
 class _MySplashScreenState extends State<MySplashScreen>
     with TickerProviderStateMixin {
-  late AnimationController _animationController;
-  late Animation<Offset> _offsetAnimation;
-
-  startTimer() {
-    Timer(const Duration(seconds: 15), () async {
-      // Navigate to the slider screen after 5 seconds
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const MySliderScreen(),
-        ),
-      );
-    });
-  }
+  late AnimationController _photoAnimationController;
+  late Animation<double> _photoAnimation;
 
   @override
   void initState() {
     super.initState();
 
-    // Initialize animation controller and set up animation
-    _animationController = AnimationController(
+    _photoAnimationController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 2),
+      duration: const Duration(seconds: 5),
     );
-    _offsetAnimation = Tween<Offset>(
-      begin: const Offset(1.0, -1.0),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.easeInOut,
-    ));
 
-    // Start animation when the widget is built
-    _animationController.forward();
+    _photoAnimation = Tween<double>(begin: 0, end: 1.22).animate(
+      CurvedAnimation(
+        parent: _photoAnimationController,
+        curve: Curves.easeInOut,
+      ),
+    );
 
-    startTimer();
+    _photoAnimationController.forward();
   }
 
   @override
   void dispose() {
-    _animationController.dispose();
+    _photoAnimationController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      child: Container(
-        color: Colors.black,
-        child: Column(
-          mainAxisAlignment:
-              MainAxisAlignment.spaceBetween, // Change to spaceBetween
-          children: [
-            SlideTransition(
-              position: _offsetAnimation,
-              child: Padding(
-                padding: const EdgeInsets.all(6.0),
-                child: Image.asset("images/splash_screen/splash.jfif",
-                    height: 200),
-              ),
-            ),
-            const SizedBox(height: 10),
-            const Padding(
-              padding: EdgeInsets.all(18),
-              child: Text(
-                "FOODFLOW",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Color(0xFFFDC652),
-                  fontSize: 70,
-                  fontFamily: "Signatra",
-                  letterSpacing: 1.5,
-                ),
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.all(10),
-              child: Text(
-                "Pakistan's no#1 food ordering app",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Color(0xFF56B89F),
-                  fontSize: 20,
-                  // fontFamily: "Signatra",
-                  letterSpacing: 3,
-                ),
-              ),
-            ),
-            const SizedBox(height: 20), // Add space between text and button
-            ElevatedButton(
-              onPressed: () {
-                // Navigate to the slider screen when the button is pressed
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const MySliderScreen(),
+    return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 60, 116, 164),
+      body: Stack(
+        children: [
+          Center(
+            child: AnimatedBuilder(
+              animation: _photoAnimationController,
+              builder: (context, child) {
+                return SlideTransition(
+                  position: _photoAnimation.drive(Tween<Offset>(
+                    begin: const Offset(0, 1),
+                    end: const Offset(0, 0),
+                  )),
+                  child: Transform.scale(
+                    scale: _photoAnimation.value,
+                    child: Container(
+                      width: 250,
+                      height: 250,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          image: AssetImage('images/splash_screen/splash.jfif'),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
                   ),
                 );
               },
-              style: ButtonStyle(
-                backgroundColor:
-                    MaterialStateProperty.all(const Color(0xFFFDC652)),
-              ),
-              child: const Text(
-                "Let's Go",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontFamily: "Signatra",
-                  letterSpacing: 2,
-                  fontSize: 30,
-                ),
-              ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          ),
+          Positioned(
+            bottom: 100,
+            left: 50,
+            right: 50,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(6.0),
-                  child: Image.asset(
-                    "images/sp.png",
-                    height: 100,
-                    width: 100,
+                const Text(
+                  'Welcome to',
+                  style: TextStyle(
+                    fontSize: 26,
+                    fontFamily: 'VarelaRound',
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(6.0),
-                  child: Image.asset(
-                    "images/sp2.png",
-                    height: 100,
-                    width: 100,
+                const Text(
+                  "Rider's App",
+                  style: TextStyle(
+                    fontSize: 50,
+                    fontFamily: 'VarelaRound',
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromARGB(225, 255, 182, 23),
                   ),
                 ),
+                const SizedBox(height: 15),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (c) => const AuthScreen()),
+                    );
+                  },
+                  // ignore: sort_child_properties_last
+                  child: const Text(
+                    'Get Started',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.black,
+                  ),
+                )
               ],
             ),
-          ],
-        ),
+          )
+        ],
       ),
     );
   }

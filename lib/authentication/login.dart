@@ -82,17 +82,20 @@ class _LoginScreenState extends State<LoginScreen> {
       if (snapshot.exists)
       // ignore: duplicate_ignore
       {
-        await sharedPreferences!.setString("uid", currentUser.uid);
-        await sharedPreferences!
-            .setString("email", snapshot.data()!["riderEmail"]);
-        await sharedPreferences!
-            .setString("name", snapshot.data()!["riderName"]);
-        await sharedPreferences!
-            .setString("photoUrl", snapshot.data()!["riderAvatarUrl"]);
+        // if(snapshot.data()!['status'] == "approved") {
+          await sharedPreferences!.setString("uid", currentUser.uid);
+          await sharedPreferences!
+              .setString("email", snapshot.data()!["riderEmail"]);
+          await sharedPreferences!
+              .setString("name", snapshot.data()!["riderName"]);
+          await sharedPreferences!
+              .setString("photoUrl", snapshot.data()!["riderAvatarUrl"]);
 
-        Navigator.pop(context);
-        Navigator.push(
-            context, MaterialPageRoute(builder: (c) => const HomeScreen()));
+          Navigator.pop(context);
+          Navigator.push(
+              context, MaterialPageRoute(builder: (c) => const HomeScreen()));
+
+
       } else {
         firebaseAuth.signOut();
         Navigator.pop(context);

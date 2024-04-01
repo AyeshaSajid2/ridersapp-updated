@@ -154,8 +154,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Icons.airport_shuttle,
               1,
               [
-                const Color(0xFFBE7ACA),
-                // const Color(0xFF39F3BB),
+                const Color.fromARGB(255, 60, 116, 164),
                 const Color.fromARGB(255, 168, 198, 225),
                 const Color(0xFF77B5E9),
                 const Color(0xFF5A74C4),
@@ -167,7 +166,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Icons.location_history,
               2,
               [
-                const Color(0xFFBE7ACA),
+                const Color.fromARGB(255, 60, 116, 164),
                 const Color(0xFF77B5E9),
                 // const Color(0xFF39F3BB),
                 const Color.fromARGB(255, 168, 198, 225),
@@ -180,7 +179,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Icons.done_all,
               3,
               [
-                const Color(0xFFBE7ACA),
+                const Color.fromARGB(255, 60, 116, 164),
                 const Color(0xFF77B5E9),
                 // const Color(0xFF39F3BB),
                 const Color.fromARGB(255, 168, 198, 225),
@@ -195,7 +194,7 @@ class _HomeScreenState extends State<HomeScreen> {
               [
                 // const Color(0xFF39F3BB),
                 const Color.fromARGB(255, 168, 198, 225),
-                const Color(0xFFBE7ACA),
+                const Color.fromARGB(255, 60, 116, 164),
                 const Color(0xFF77B5E9),
                 const Color(0xFF5A74C4),
               ],
@@ -208,7 +207,7 @@ class _HomeScreenState extends State<HomeScreen> {
               [
                 // const Color(0xFF39F3BB),
                 const Color.fromARGB(255, 168, 198, 225),
-                const Color(0xFFBE7ACA),
+                const Color.fromARGB(255, 60, 116, 164),
                 const Color(0xFF77B5E9),
                 const Color(0xFF5A74C4),
               ],
