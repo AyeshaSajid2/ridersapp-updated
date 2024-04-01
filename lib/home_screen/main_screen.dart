@@ -1,59 +1,85 @@
-// ignore_for_file: library_private_types_in_public_api
-
 import 'package:flutter/material.dart';
-// ignore: unused_import
+import 'package:ridersapp/assistantMethods/get_current_location.dart';
 import 'package:ridersapp/authentication/auth_screen.dart';
 import 'package:ridersapp/global/global.dart';
+import 'package:ridersapp/home_screen/new_orders_screen.dart';
+import 'package:ridersapp/home_screen/parcel_in_progress_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  // ignore: use_super_parameters
   const HomeScreen({Key? key}) : super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  Card makeDashboardItem(String title, IconData iconData, int index,
-      List<Color> gradientColors, List<double> gradientStops) {
+
+
+class _HomeScreenState extends State<HomeScreen>
+{
+  Card makeDashboardItem(String title, IconData iconData, int index)
+  {
     return Card(
       elevation: 2,
       margin: const EdgeInsets.all(8),
       child: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: gradientColors,
-            begin: const FractionalOffset(0.0, 0.0),
-            end: const FractionalOffset(1.0, 0.0),
-            stops: gradientStops,
-            tileMode: TileMode.clamp,
-          ),
+        decoration: index == 0 || index == 3 || index == 4
+            ? const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Colors.amber,
+                Colors.cyan,
+              ],
+              begin:  FractionalOffset(0.0, 0.0),
+              end:  FractionalOffset(1.0, 0.0),
+              stops: [0.0, 1.0],
+              tileMode: TileMode.clamp,
+            )
+        )
+            : const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Colors.redAccent,
+                Colors.amber,
+              ],
+              begin:  FractionalOffset(0.0, 0.0),
+              end:  FractionalOffset(1.0, 0.0),
+              stops: [0.0, 1.0],
+              tileMode: TileMode.clamp,
+            )
         ),
         child: InkWell(
-          onTap: () {
-            // Handle onTap for each index
-            if (index == 0) {
+          onTap: ()
+          {
+            if(index == 0)
+            {
               //New Available Orders
-              // Navigator.push(context,
-              // MaterialPageRoute(builder: (c) => const NewOrdersScreen()));
+              Navigator.push(context, MaterialPageRoute(builder: (c)=> NewOrdersScreen()));
             }
-            if (index == 1) {
+            if(index == 1)
+            {
               //Parcels in Progress
+              Navigator.push(context, MaterialPageRoute(builder: (c)=> ParcelInProgressScreen()));
             }
-            if (index == 2) {
+            if(index == 2)
+            {
               //Not Yet Delivered
+
             }
-            if (index == 3) {
+            if(index == 3)
+            {
               //History
+
             }
-            if (index == 4) {
+            if(index == 4)
+            {
               //Total Earnings
+
             }
-            if (index == 5) {
+            if(index == 5)
+            {
               //Logout
-              firebaseAuth.signOut().then((value) {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (c) => const AuthScreen()));
+              firebaseAuth.signOut().then((value){
+                Navigator.push(context, MaterialPageRoute(builder: (c)=> const AuthScreen()));
               });
             }
           },
@@ -88,29 +114,37 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   @override
+  void initState() {
+    super.initState();
+
+    UserLocation uLocation = UserLocation();
+    uLocation.getCurrentLocation();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // flexibleSpace: Container(
-        //   decoration: const BoxDecoration(
-        //     // gradient: LinearGradient(
-        //     //   begin: Alignment.topRight,
-        //     //   end: Alignment.bottomLeft,
-        //     //   colors: [
-        //     //     Color(0xFF56B89F),
-        //     //     Color(0xFF39F3BB),
-        //     //     Colors.cyan,
-        //     //   ],
-        //     // ),
-        //   ),
-        // ),
-        backgroundColor: const Color.fromARGB(255, 60, 116, 164),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  Colors.cyan,
+                  Colors.amber,
+                ],
+                begin:  FractionalOffset(0.0, 0.0),
+                end:  FractionalOffset(1.0, 0.0),
+                stops: [0.0, 1.0],
+                tileMode: TileMode.clamp,
+              )
+          ),
+        ),
         title: Text(
-          // ignore: prefer_interpolation_to_compose_strings
-          "Welcome " + sharedPreferences!.getString("name")!,
+          "Welcome " +
+              sharedPreferences!.getString("name")!,
           style: const TextStyle(
-            fontSize: 50.0,
-            color: Colors.white,
+            fontSize: 25.0,
+            color: Colors.black,
             fontFamily: "Signatra",
             letterSpacing: 2,
           ),
@@ -119,100 +153,17 @@ class _HomeScreenState extends State<HomeScreen> {
         automaticallyImplyLeading: false,
       ),
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            colors: [
-              Color.fromRGBO(210, 217, 223, 1),
-              Color.fromRGBO(147, 187, 222, 1),
-            ],
-          ),
-        ),
         padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 1),
         child: GridView.count(
           crossAxisCount: 2,
           padding: const EdgeInsets.all(2),
           children: [
-            makeDashboardItem(
-              "New Available Orders",
-              Icons.assignment,
-              0,
-              [
-                // Color.fromARGB(255, 32, 18, 46),
-
-                //const Color(0xFF39F3BB),
-                const Color.fromARGB(255, 60, 116, 164),
-                const Color.fromARGB(255, 168, 198, 225),
-                const Color(0xFF77B5E9),
-                const Color(0xFF5A74C4),
-              ],
-              [0.0, 0.3, 0.6, 1.0],
-            ),
-            makeDashboardItem(
-              "Parcels in Progress",
-              Icons.airport_shuttle,
-              1,
-              [
-                const Color.fromARGB(255, 60, 116, 164),
-                const Color.fromARGB(255, 168, 198, 225),
-                const Color(0xFF77B5E9),
-                const Color(0xFF5A74C4),
-              ],
-              [0.0, 0.3, 0.6, 1.0],
-            ),
-            makeDashboardItem(
-              "Not Yet Delivered",
-              Icons.location_history,
-              2,
-              [
-                const Color.fromARGB(255, 60, 116, 164),
-                const Color(0xFF77B5E9),
-                // const Color(0xFF39F3BB),
-                const Color.fromARGB(255, 168, 198, 225),
-                const Color(0xFF5A74C4),
-              ],
-              [0.0, 0.3, 0.7, 1.0],
-            ),
-            makeDashboardItem(
-              "History",
-              Icons.done_all,
-              3,
-              [
-                const Color.fromARGB(255, 60, 116, 164),
-                const Color(0xFF77B5E9),
-                // const Color(0xFF39F3BB),
-                const Color.fromARGB(255, 168, 198, 225),
-                const Color(0xFF5A74C4),
-              ],
-              [0.0, 0.3, 0.7, 1.0],
-            ),
-            makeDashboardItem(
-              "Total Earnings",
-              Icons.monetization_on,
-              4,
-              [
-                // const Color(0xFF39F3BB),
-                const Color.fromARGB(255, 168, 198, 225),
-                const Color.fromARGB(255, 60, 116, 164),
-                const Color(0xFF77B5E9),
-                const Color(0xFF5A74C4),
-              ],
-              [0.0, 0.3, 0.9, 1.0],
-            ),
-            makeDashboardItem(
-              "Logout",
-              Icons.logout,
-              5,
-              [
-                // const Color(0xFF39F3BB),
-                const Color.fromARGB(255, 168, 198, 225),
-                const Color.fromARGB(255, 60, 116, 164),
-                const Color(0xFF77B5E9),
-                const Color(0xFF5A74C4),
-              ],
-              [0.0, 0.3, 0.9, 1.0],
-            ),
+            makeDashboardItem("New Available Orders", Icons.assignment, 0),
+            makeDashboardItem("Parcels in Progress", Icons.airport_shuttle, 1),
+            makeDashboardItem("Not Yet Delivered", Icons.location_history, 2),
+            makeDashboardItem("History", Icons.done_all, 3),
+            makeDashboardItem("Total Earnings", Icons.monetization_on, 4),
+            makeDashboardItem("Logout", Icons.logout, 5),
           ],
         ),
       ),
