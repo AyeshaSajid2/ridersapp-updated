@@ -4,26 +4,26 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ridersapp/global/global.dart';
-import 'package:ridersapp/home_screen/main_screen.dart';
+import 'package:ridersapp/mainScreens/home_screen.dart';
 import 'package:ridersapp/widgets/custom_text_field.dart';
 import 'package:ridersapp/widgets/error_dialog.dart';
-import 'package:ridersapp/widgets/loading_dialogue.dart';
+import 'package:ridersapp/widgets/loading_dialog.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
-// ignore: library_prefixes
 import 'package:firebase_storage/firebase_storage.dart' as fStorage;
 import 'package:shared_preferences/shared_preferences.dart';
 
+
 class RegisterScreen extends StatefulWidget {
-  // ignore: use_super_parameters
   const RegisterScreen({Key? key}) : super(key: key);
 
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _RegisterScreenState extends State<RegisterScreen>
+{
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
@@ -41,12 +41,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
   String sellerImageUrl = "";
   String completeAddress = "";
 
-  Future<void> _getImage() async {
+
+  Future<void> _getImage() async
+  {
     imageXFile = await _picker.pickImage(source: ImageSource.gallery);
-    setState(() {});
+    setState(() {
+      imageXFile;
+    });
   }
 
-  getCurrentLocation() async {
+  getCurrentLocation() async
+  {
     Position newPosition = await Geolocator.getCurrentPosition(
       desiredAccuracy: LocationAccuracy.high,
     );
@@ -60,111 +65,117 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     Placemark pMark = placeMarks![0];
 
-    completeAddress =
-        '${pMark.subThoroughfare} ${pMark.thoroughfare}, ${pMark.subLocality} ${pMark.locality}, ${pMark.subAdministrativeArea}, ${pMark.administrativeArea} ${pMark.postalCode}, ${pMark.country}';
+    completeAddress = '${pMark.subThoroughfare} ${pMark.thoroughfare}, ${pMark.subLocality} ${pMark.locality}, ${pMark.subAdministrativeArea}, ${pMark.administrativeArea} ${pMark.postalCode}, ${pMark.country}';
 
     locationController.text = completeAddress;
   }
 
-  Future<void> formValidation() async {
-    if (imageXFile == null) {
+  Future<void> formValidation() async
+  {
+    if(imageXFile == null)
+    {
       showDialog(
         context: context,
-        builder: (c) {
-          return const ErrorDialoge(
+        builder: (c)
+        {
+          return ErrorDialog(
             message: "Please select an image.",
           );
-        },
+        }
       );
-    } else {
-      if (passwordController.text == confirmPasswordController.text) {
-        if (confirmPasswordController.text.isNotEmpty &&
-            emailController.text.isNotEmpty &&
-            nameController.text.isNotEmpty &&
-            phoneController.text.isNotEmpty &&
-            locationController.text.isNotEmpty) {
+    }
+    else
+    {
+      if(passwordController.text == confirmPasswordController.text)
+      {
+        if(confirmPasswordController.text.isNotEmpty && emailController.text.isNotEmpty && nameController.text.isNotEmpty && phoneController.text.isNotEmpty && locationController.text.isNotEmpty)
+        {
+          //start uploading image
           showDialog(
             context: context,
-            builder: (c) {
-              return const LoadingDialoge(
+            builder: (c)
+            {
+              return LoadingDialog(
                 message: "Registering Account",
               );
-            },
+            }
           );
 
           String fileName = DateTime.now().millisecondsSinceEpoch.toString();
-          fStorage.Reference reference = fStorage.FirebaseStorage.instance
-              .ref()
-              .child("riders")
-              .child(fileName);
-          fStorage.UploadTask uploadTask =
-              reference.putFile(File(imageXFile!.path));
-          fStorage.TaskSnapshot taskSnapshot =
-              await uploadTask.whenComplete(() {});
+          fStorage.Reference reference = fStorage.FirebaseStorage.instance.ref().child("riders").child(fileName);
+          fStorage.UploadTask uploadTask = reference.putFile(File(imageXFile!.path));
+          fStorage.TaskSnapshot taskSnapshot = await uploadTask.whenComplete(() {});
           await taskSnapshot.ref.getDownloadURL().then((url) {
             sellerImageUrl = url;
+
+            //save info to firestore
             authenticateSellerAndSignUp();
           });
-        } else {
+        }
+        else
+        {
           showDialog(
-            context: context,
-            builder: (c) {
-              return const ErrorDialoge(
-                message: "Please provide complete registration information.",
-              );
-            },
+              context: context,
+              builder: (c)
+              {
+                return ErrorDialog(
+                  message: "Please write the complete required info for Registration.",
+                );
+              }
           );
         }
-      } else {
+      }
+      else
+      {
         showDialog(
-          context: context,
-          builder: (c) {
-            return const ErrorDialoge(
-              message: "Passwords do not match.",
-            );
-          },
+            context: context,
+            builder: (c)
+            {
+              return ErrorDialog(
+                message: "Password do not match.",
+              );
+            }
         );
       }
     }
   }
 
-  Future<void> authenticateSellerAndSignUp() async {
+  void authenticateSellerAndSignUp() async
+  {
     User? currentUser;
 
-    try {
-      UserCredential auth = await firebaseAuth.createUserWithEmailAndPassword(
-        email: emailController.text.trim(),
-        password: passwordController.text.trim(),
-      );
-
+    await firebaseAuth.createUserWithEmailAndPassword(
+      email: emailController.text.trim(),
+      password: passwordController.text.trim(),
+    ).then((auth) {
       currentUser = auth.user;
-
-      if (currentUser != null) {
-        await saveDataToFirestore(currentUser);
-        Navigator.pop(context);
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (c) => const HomeScreen()),
-        );
-      }
-    } catch (error) {
+    }).catchError((error){
       Navigator.pop(context);
       showDialog(
-        context: context,
-        builder: (c) {
-          return ErrorDialoge(
-            message: error.toString(),
-          );
-        },
+          context: context,
+          builder: (c)
+          {
+            return ErrorDialog(
+              message: error.message.toString(),
+            );
+          }
       );
+    });
+
+    if(currentUser != null)
+    {
+      saveDataToFirestore(currentUser!).then((value) {
+        Navigator.pop(context);
+        //send user to homePage
+        Route newRoute = MaterialPageRoute(builder: (c) => const HomeScreen());
+        Navigator.pushReplacement(context, newRoute);
+      });
     }
   }
 
-  Future saveDataToFirestore(User currentUser) async {
-    await FirebaseFirestore.instance
-        .collection("riders")
-        .doc(currentUser.uid)
-        .set({
+  Future saveDataToFirestore(User currentUser) async
+  {
+    FirebaseFirestore.instance.collection("riders").doc(currentUser.uid).set({
       "riderUID": currentUser.uid,
       "riderEmail": currentUser.email,
       "riderName": nameController.text.trim(),
@@ -188,128 +199,117 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          const SizedBox(
-            height: 10,
-          ),
-          InkWell(
-            onTap: () {
-              _getImage();
-            },
-            child: CircleAvatar(
-              radius: MediaQuery.of(context).size.width * 0.20,
-              backgroundColor: Colors.white,
-              backgroundImage:
-                  imageXFile == null ? null : FileImage(File(imageXFile!.path)),
-              child: imageXFile == null
-                  ? Icon(
-                      Icons.add_photo_alternate,
-                      size: MediaQuery.of(context).size.width * 0.20,
-                      color: Colors.lightGreenAccent,
-                    )
-                  : null,
+      child: Container(
+        child: Column(
+          mainAxisSize: MainAxisSize.max,
+          children: [
+            const SizedBox(height: 10,),
+            InkWell(
+              onTap: ()
+              {
+                _getImage();
+              },
+              child: CircleAvatar(
+                radius: MediaQuery.of(context).size.width * 0.20,
+                backgroundColor: Colors.white,
+                backgroundImage: imageXFile==null ? null : FileImage(File(imageXFile!.path)),
+                child: imageXFile == null
+                    ?
+                Icon(
+                  Icons.add_photo_alternate,
+                  size: MediaQuery.of(context).size.width * 0.20,
+                  color: Colors.grey,
+                ) : null,
+              ),
             ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                CustomTextField(
-                  data: Icons.person,
-                  controller: nameController,
-                  hintText: "Name",
-                  isObsecre: false,
-                ),
-                CustomTextField(
-                  data: Icons.email,
-                  controller: emailController,
-                  hintText: "Email",
-                  isObsecre: false,
-                ),
-                CustomTextField(
-                  data: Icons.lock,
-                  controller: passwordController,
-                  hintText: "Password",
-                  isObsecre: true,
-                ),
-                CustomTextField(
-                  data: Icons.lock,
-                  controller: confirmPasswordController,
-                  hintText: "Confirm Password",
-                  isObsecre: true,
-                ),
-                CustomTextField(
-                  data: Icons.phone,
-                  controller: phoneController,
-                  hintText: "Phone",
-                  isObsecre: false,
-                ),
-                CustomTextField(
-                  data: Icons.my_location,
-                  controller: locationController,
-                  hintText: "Cafe/Restaurant Address",
-                  isObsecre: false,
-                  enabled: true,
-                ),
-                Container(
-                  width: 400,
-                  height: 40,
-                  alignment: Alignment.center,
-                  child: ElevatedButton.icon(
-                    label: const Text(
-                      "Get my Current Location",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    icon: const Icon(
-                      Icons.location_on,
-                      color: Colors.white,
-                    ),
-                    onPressed: () {
-                      Geolocator.requestPermission();
-                      getCurrentLocation();
-                    },
-                    style: ElevatedButton.styleFrom(
-                      // ignore: deprecated_member_use
-                      backgroundColor: Colors.amber,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
+            const SizedBox(height: 10,),
+            Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  CustomTextField(
+                    data: Icons.person,
+                    controller: nameController,
+                    hintText: "Name",
+                    isObsecre: false,
+                  ),
+                  CustomTextField(
+                    data: Icons.email,
+                    controller: emailController,
+                    hintText: "Email",
+                    isObsecre: false,
+                  ),
+                  CustomTextField(
+                    data: Icons.lock,
+                    controller: passwordController,
+                    hintText: "Password",
+                    isObsecre: true,
+                  ),
+                  CustomTextField(
+                    data: Icons.lock,
+                    controller: confirmPasswordController,
+                    hintText: "Confirm Password",
+                    isObsecre: true,
+                  ),
+                  CustomTextField(
+                    data: Icons.phone,
+                    controller: phoneController,
+                    hintText: "Phone",
+                    isObsecre: false,
+                  ),
+                  CustomTextField(
+                    data: Icons.my_location,
+                    controller: locationController,
+                    hintText: "My Current Address",
+                    isObsecre: false,
+                    enabled: true,
+                  ),
+                  Container(
+                    width: 400,
+                    height: 40,
+                    alignment: Alignment.center,
+                    child: ElevatedButton.icon(
+                      label: const Text(
+                        "Get my Current Location",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      icon: const Icon(
+                        Icons.location_on,
+                        color: Colors.white,
+                      ),
+                      onPressed: ()
+                      {
+                        getCurrentLocation();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.amber,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-          ElevatedButton(
-            // ignore: sort_child_properties_last
-            child: const Text(
-              "Sign Up",
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
+                ],
               ),
             ),
-            style: ElevatedButton.styleFrom(
-              // ignore: deprecated_member_use
-              backgroundColor: Colors.black,
-              padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+            const SizedBox(height: 30,),
+            ElevatedButton(
+              child: const Text(
+                "Sign Up",
+                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold,),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.cyan,
+                padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
+              ),
+              onPressed: ()
+              {
+                formValidation();
+              },
             ),
-            onPressed: () {
-              formValidation();
-            },
-          ),
-          const SizedBox(
-            height: 30,
-          ),
-        ],
+            const SizedBox(height: 30,),
+          ],
+        ),
       ),
     );
   }

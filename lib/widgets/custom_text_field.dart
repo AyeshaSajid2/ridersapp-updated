@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-// ignore: must_be_immutable
-class CustomTextField extends StatelessWidget {
+
+class CustomTextField extends StatelessWidget
+{
   final TextEditingController? controller;
   final IconData? data;
   final String? hintText;
@@ -9,7 +10,6 @@ class CustomTextField extends StatelessWidget {
   bool? enabled = true;
 
   CustomTextField({
-    super.key,
     this.controller,
     this.data,
     this.hintText,
@@ -18,7 +18,8 @@ class CustomTextField extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)
+  {
     return Container(
       decoration: const BoxDecoration(
         color: Colors.white,
@@ -32,13 +33,14 @@ class CustomTextField extends StatelessWidget {
         obscureText: isObsecre!,
         cursorColor: Theme.of(context).primaryColor,
         decoration: InputDecoration(
-            border: InputBorder.none,
-            prefixIcon: Icon(
-              data,
-              color: Colors.cyan,
-            ),
-            focusColor: Theme.of(context).primaryColor,
-            hintText: hintText),
+          border: InputBorder.none,
+          prefixIcon: Icon(
+            data,
+            color: Colors.cyan,
+          ),
+          focusColor: Theme.of(context).primaryColor,
+          hintText: hintText,
+        ),
       ),
     );
   }

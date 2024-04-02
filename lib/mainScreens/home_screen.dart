@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:ridersapp/assistantMethods/get_current_location.dart';
 import 'package:ridersapp/authentication/auth_screen.dart';
 import 'package:ridersapp/global/global.dart';
-import 'package:ridersapp/home_screen/new_orders_screen.dart';
-import 'package:ridersapp/home_screen/parcel_in_progress_screen.dart';
+import 'package:ridersapp/mainScreens/new_orders_screen.dart';
+import 'package:ridersapp/mainScreens/parcel_in_progress_screen.dart';
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -141,7 +142,7 @@ class _HomeScreenState extends State<HomeScreen>
         ),
         title: Text(
           "Welcome " +
-              sharedPreferences!.getString("name")!,
+          sharedPreferences!.getString("name")!,
           style: const TextStyle(
             fontSize: 25.0,
             color: Colors.black,

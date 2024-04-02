@@ -1,116 +1,123 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:ridersapp/authentication/auth_screen.dart';
 import 'package:ridersapp/global/global.dart';
-import 'package:ridersapp/home_screen/main_screen.dart';
+import 'package:ridersapp/mainScreens/home_screen.dart';
 import 'package:ridersapp/widgets/custom_text_field.dart';
 import 'package:ridersapp/widgets/error_dialog.dart';
-// ignore: unused_import
-import 'package:ridersapp/widgets/loading_dialogue.dart';
-// import 'package:ridersapp/widgets/error_dialog.dart';
+import 'package:ridersapp/widgets/loading_dialog.dart';
+
+
 
 class LoginScreen extends StatefulWidget {
-  // ignore: use_super_parameters
   const LoginScreen({Key? key}) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
   _LoginScreenState createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+
+
+class _LoginScreenState extends State<LoginScreen>
+{
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  formValidation() {
-    if (emailController.text.isNotEmpty && passwordController.text.isNotEmpty) {
+
+  formValidation()
+  {
+    if(emailController.text.isNotEmpty && passwordController.text.isNotEmpty)
+    {
       //login
       loginNow();
-    } else {
+    }
+    else
+    {
       showDialog(
-          context: context,
-          builder: (c) {
-            return const ErrorDialoge(
-              message: "Please write email/password.",
-            );
-          });
+        context: context,
+        builder: (c)
+        {
+          return ErrorDialog(
+            message: "Please write email/password.",
+          );
+        }
+      );
     }
   }
 
-  loginNow() async {
+
+  loginNow() async
+  {
     showDialog(
         context: context,
-        builder: (c) {
-          return const LoadingDialoge(
+        builder: (c)
+        {
+          return LoadingDialog(
             message: "Checking Credentials",
           );
-        });
+        }
+    );
 
     User? currentUser;
-    await firebaseAuth
-        .signInWithEmailAndPassword(
+    await firebaseAuth.signInWithEmailAndPassword(
       email: emailController.text.trim(),
       password: passwordController.text.trim(),
-    )
-        .then((auth) {
+    ).then((auth){
       currentUser = auth.user!;
-    }).catchError((error) {
+    }).catchError((error){
       Navigator.pop(context);
       showDialog(
           context: context,
-          builder: (c) {
-            return ErrorDialoge(
+          builder: (c)
+          {
+            return ErrorDialog(
               message: error.message.toString(),
             );
-          });
+          }
+      );
     });
-    if (currentUser != null) {
+    if(currentUser != null)
+    {
       readDataAndSetDataLocally(currentUser!);
     }
   }
 
-  Future readDataAndSetDataLocally(User currentUser) async {
-    await FirebaseFirestore.instance
-        .collection("riders")
+  Future readDataAndSetDataLocally(User currentUser) async
+  {
+    await FirebaseFirestore.instance.collection("riders")
         .doc(currentUser.uid)
         .get()
         .then((snapshot) async {
-      if (snapshot.exists)
-      // ignore: duplicate_ignore
-      {
-        // if(snapshot.data()!['status'] == "approved") {
-          await sharedPreferences!.setString("uid", currentUser.uid);
-          await sharedPreferences!
-              .setString("email", snapshot.data()!["riderEmail"]);
-          await sharedPreferences!
-              .setString("name", snapshot.data()!["riderName"]);
-          await sharedPreferences!
-              .setString("photoUrl", snapshot.data()!["riderAvatarUrl"]);
+          if(snapshot.exists)
+          {
+            await sharedPreferences!.setString("uid", currentUser.uid);
+            await sharedPreferences!.setString("email", snapshot.data()!["riderEmail"]);
+            await sharedPreferences!.setString("name", snapshot.data()!["riderName"]);
+            await sharedPreferences!.setString("photoUrl", snapshot.data()!["riderAvatarUrl"]);
 
-          Navigator.pop(context);
-          Navigator.push(
-              context, MaterialPageRoute(builder: (c) => const HomeScreen()));
+            Navigator.pop(context);
+            Navigator.push(context, MaterialPageRoute(builder: (c)=> const HomeScreen()));
+          }
+          else
+          {
+            firebaseAuth.signOut();
+            Navigator.pop(context);
+            Navigator.push(context, MaterialPageRoute(builder: (c)=> const AuthScreen()));
 
+            showDialog(
+                context: context,
+                builder: (c)
+                {
+                  return ErrorDialog(
+                    message: "no record exists.",
+                  );
+                }
+            );
+          }
 
-      } else {
-        firebaseAuth.signOut();
-        Navigator.pop(context);
-        Navigator.push(
-            context, MaterialPageRoute(builder: (c) => const AuthScreen()));
-
-        showDialog(
-            context: context,
-            builder: (c) {
-              return const ErrorDialoge(
-                message: "No record exists.",
-              );
-            });
-      }
-    });
+        });
   }
 
   @override
@@ -122,10 +129,10 @@ class _LoginScreenState extends State<LoginScreen> {
           Container(
             alignment: Alignment.bottomCenter,
             child: Padding(
-              padding: const EdgeInsets.all(15),
+              padding: EdgeInsets.all(15),
               child: Image.asset(
-                "images/signup.png",
-                height: 270,
+                  "images/signup.png",
+                  height: 270,
               ),
             ),
           ),
@@ -149,25 +156,20 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
           ElevatedButton(
-            // ignore: sort_child_properties_last
             child: const Text(
               "Login",
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
+              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold,),
             ),
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.black,
+              backgroundColor: Colors.cyan,
               padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
             ),
-            onPressed: () {
+            onPressed: ()
+            {
               formValidation();
             },
           ),
-          const SizedBox(
-            height: 30,
-          ),
+          const SizedBox(height: 30,),
         ],
       ),
     );

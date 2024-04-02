@@ -1,17 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-// ignore: unused_import
-import 'package:ridersapp/home_screen/order_details_screen.dart';
+import 'package:ridersapp/mainScreens/order_details_screen.dart';
 import 'package:ridersapp/models/items.dart';
 
-class OrderCard extends StatelessWidget {
+
+class OrderCard extends StatelessWidget
+{
   final int? itemCount;
   final List<DocumentSnapshot>? data;
   final String? orderID;
   final List<String>? seperateQuantitiesList;
 
-  // ignore: use_key_in_widget_constructors
-  const OrderCard({
+  OrderCard({
     this.itemCount,
     this.data,
     this.orderID,
@@ -21,36 +21,33 @@ class OrderCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        // Navigator.push(
-        //     //context,
-        //     // MaterialPageRoute(
-        //     //     builder: (c) => OrderDetailsScreen(orderID: orderID))
-        //         );
+      onTap: ()
+      {
+        Navigator.push(context, MaterialPageRoute(builder: (c)=> OrderDetailsScreen(orderID: orderID)));
       },
       child: Container(
         decoration: const BoxDecoration(
             gradient: LinearGradient(
-          colors: [
-            Colors.black12,
-            Colors.white54,
-          ],
-          begin: FractionalOffset(0.0, 0.0),
-          end: FractionalOffset(1.0, 0.0),
-          stops: [0.0, 1.0],
-          tileMode: TileMode.clamp,
-        )),
+              colors: [
+                Colors.black12,
+                Colors.white54,
+              ],
+              begin:  FractionalOffset(0.0, 0.0),
+              end:  FractionalOffset(1.0, 0.0),
+              stops: [0.0, 1.0],
+              tileMode: TileMode.clamp,
+            )
+        ),
         padding: const EdgeInsets.all(10),
         margin: const EdgeInsets.all(10),
         height: itemCount! * 125,
         child: ListView.builder(
           itemCount: itemCount,
-          physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (context, index) {
-            Items model =
-                Items.fromJson(data![index].data()! as Map<String, dynamic>);
-            return placedOrderDesignWidget(
-                model, context, seperateQuantitiesList![index]);
+          physics: NeverScrollableScrollPhysics(),
+          itemBuilder: (context, index)
+          {
+            Items model = Items.fromJson(data![index].data()! as Map<String, dynamic>);
+            return placedOrderDesignWidget(model, context, seperateQuantitiesList![index]);
           },
         ),
       ),
@@ -58,28 +55,28 @@ class OrderCard extends StatelessWidget {
   }
 }
 
-Widget placedOrderDesignWidget(
-    Items model, BuildContext context, seperateQuantitiesList) {
+
+
+
+Widget placedOrderDesignWidget(Items model, BuildContext context, seperateQuantitiesList)
+{
   return Container(
     width: MediaQuery.of(context).size.width,
     height: 120,
     color: Colors.grey[200],
     child: Row(
       children: [
-        Image.network(
-          model.thumbnailUrl!,
-          width: 120,
-        ),
-        const SizedBox(
-          width: 10.0,
-        ),
+        Image.network(model.thumbnailUrl!, width: 120,),
+        const SizedBox(width: 10.0,),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+
               const SizedBox(
                 height: 20,
               ),
+
               Row(
                 mainAxisSize: MainAxisSize.max,
                 children: [
@@ -109,17 +106,19 @@ Widget placedOrderDesignWidget(
                   ),
                 ],
               ),
+
               const SizedBox(
                 height: 20,
               ),
+
               Row(
                 children: [
                   const Text(
-                    "x ",
-                    style: TextStyle(
-                      color: Colors.black54,
-                      fontSize: 14,
-                    ),
+                      "x ",
+                      style: TextStyle(
+                        color: Colors.black54,
+                        fontSize: 14,
+                      ),
                   ),
                   Expanded(
                     child: Text(
@@ -133,6 +132,7 @@ Widget placedOrderDesignWidget(
                   ),
                 ],
               ),
+
             ],
           ),
         ),

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ridersapp/authentication/auth_screen.dart';
 import 'package:ridersapp/global/global.dart';
-import 'package:ridersapp/home_screen/main_screen.dart';
+// import 'package:ridersapp/home_screen/main_screen.dart';
+
+import '../mainScreens/home_screen.dart';
 
 class MySliderScreen extends StatefulWidget {
   const MySliderScreen({Key? key}) : super(key: key);

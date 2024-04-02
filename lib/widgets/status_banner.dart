@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:ridersapp/home_screen/main_screen.dart';
+import 'package:ridersapp/mainScreens/home_screen.dart';
 
-class StatusBanner extends StatelessWidget {
+
+class StatusBanner extends StatelessWidget
+{
   final bool? status;
   final String? orderStatus;
 
-  const StatusBanner({super.key, this.status, this.orderStatus});
+  StatusBanner({this.status, this.orderStatus});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)
+  {
     String? message;
     IconData? iconData;
 
@@ -18,23 +21,24 @@ class StatusBanner extends StatelessWidget {
     return Container(
       decoration: const BoxDecoration(
           gradient: LinearGradient(
-        colors: [
-          Colors.cyan,
-          Colors.amber,
-        ],
-        begin: FractionalOffset(0.0, 0.0),
-        end: FractionalOffset(1.0, 0.0),
-        stops: [0.0, 1.0],
-        tileMode: TileMode.clamp,
-      )),
+            colors: [
+              Colors.cyan,
+              Colors.amber,
+            ],
+            begin:  FractionalOffset(0.0, 0.0),
+            end:  FractionalOffset(1.0, 0.0),
+            stops: [0.0, 1.0],
+            tileMode: TileMode.clamp,
+          )
+      ),
       height: 40,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           GestureDetector(
-            onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const HomeScreen()));
+            onTap: ()
+            {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen()));
             },
             child: const Icon(
               Icons.arrow_back,

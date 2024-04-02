@@ -7,8 +7,9 @@ class SimpleAppBar extends StatelessWidget implements PreferredSizeWidget {
   SimpleAppBar({this.bottom, this.title});
 
   @override
-  Size get preferredSize =>
-      bottom == null ? Size(56, kToolbarHeight) : Size(56, 80 + kToolbarHeight);
+  Size get preferredSize => bottom == null
+      ? const Size.fromHeight(kToolbarHeight)
+      : Size.fromHeight(kToolbarHeight + bottom!.preferredSize.height);
 
   @override
   Widget build(BuildContext context) {
@@ -19,22 +20,25 @@ class SimpleAppBar extends StatelessWidget implements PreferredSizeWidget {
       flexibleSpace: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-              colors: [Colors.cyan, Colors.amber],
-              begin: FractionalOffset(0.0, 0.0),
-              end: FractionalOffset(1.0, 0.0),
-              stops: [0.0, 1.0],
-              tileMode: TileMode.clamp),
+            colors: [Colors.cyan, Colors.amber],
+            begin: FractionalOffset(0.0, 0.0),
+            end: FractionalOffset(1.0, 0.0),
+            stops: [0.0, 1.0],
+            tileMode: TileMode.clamp,
+          ),
         ),
       ),
       centerTitle: true,
       title: Text(
-        title ?? '',
+        title!,
         style: const TextStyle(
-            fontSize: 45.0,
-            letterSpacing: 3,
-            color: Colors.white,
-            fontFamily: "Signatra"),
+          fontSize: 20.0, // Adjust the font size as needed
+          letterSpacing: 3,
+          color: Colors.white,
+          fontFamily: "Signatra",
+        ),
       ),
+      bottom: bottom,
     );
   }
 }

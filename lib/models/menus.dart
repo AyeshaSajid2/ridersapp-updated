@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Menus {
+class Menus
+{
   String? menuID;
   String? sellerUID;
   String? menuTitle;
@@ -19,7 +20,8 @@ class Menus {
     this.status,
   });
 
-  Menus.fromJson(Map<String, dynamic> json) {
+  Menus.fromJson(Map<String, dynamic> json)
+  {
     menuID = json["menuID"];
     sellerUID = json['sellerUID'];
     menuTitle = json['menuTitle'];
@@ -29,8 +31,8 @@ class Menus {
     status = json['status'];
   }
 
-  Map<String, dynamic> toJson() {
-    // ignore: prefer_collection_literals
+  Map<String, dynamic> toJson()
+  {
     final Map<String, dynamic> data = Map<String, dynamic>();
     data["menuID"] = menuID;
     data['sellerUID'] = sellerUID;

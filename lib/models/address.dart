@@ -1,4 +1,5 @@
-class Address {
+class Address
+{
   String? name;
   String? phoneNumber;
   String? flatNumber;
@@ -19,7 +20,8 @@ class Address {
     this.lng,
   });
 
-  Address.fromJson(Map<String, dynamic> json) {
+  Address.fromJson(Map<String, dynamic> json)
+  {
     name = json['name'];
     phoneNumber = json['phoneNumber'];
     flatNumber = json['flatNumber'];
@@ -30,8 +32,8 @@ class Address {
     lng = json['lng'];
   }
 
-  Map<String, dynamic> toJson() {
-    // ignore: prefer_collection_literals
+  Map<String, dynamic> toJson()
+  {
     final Map<String, dynamic> data = Map<String, dynamic>();
     data['name'] = name;
     data['phoneNumber'] = phoneNumber;
