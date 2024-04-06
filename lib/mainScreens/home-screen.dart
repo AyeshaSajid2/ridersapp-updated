@@ -1,9 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:ridersapp/assistantMethods/get_current_location.dart';
 import 'package:ridersapp/authentication/auth_screen.dart';
 import 'package:ridersapp/global/global.dart';
 import 'package:ridersapp/mainScreens/new_orders_screen.dart';
-import 'package:ridersapp/mainScreens/parcel_in_progress_screen.dart';
+
+import 'earnings-screen.dart';
+import 'history-screen.dart';
+import 'not-yet-delivered-screen.dart';
+import 'parcel-in-progress-screen.dart';
 
 
 class HomeScreen extends StatefulWidget {
@@ -64,17 +69,17 @@ class _HomeScreenState extends State<HomeScreen>
             if(index == 2)
             {
               //Not Yet Delivered
-
+              Navigator.push(context, MaterialPageRoute(builder: (c)=> NotYetDeliveredScreen()));
             }
             if(index == 3)
             {
               //History
-
+              Navigator.push(context, MaterialPageRoute(builder: (c)=> HistoryScreen()));
             }
             if(index == 4)
             {
               //Total Earnings
-
+              Navigator.push(context, MaterialPageRoute(builder: (c)=> EarningsScreen()));
             }
             if(index == 5)
             {
@@ -120,6 +125,31 @@ class _HomeScreenState extends State<HomeScreen>
 
     UserLocation uLocation = UserLocation();
     uLocation.getCurrentLocation();
+    getPerParcelDeliveryAmount();
+    getRiderPreviousEarnings();
+  }
+
+
+  getRiderPreviousEarnings()
+  {
+    FirebaseFirestore.instance
+        .collection("riders")
+        .doc(sharedPreferences!.getString("uid"))
+        .get().then((snap)
+    {
+      previousRiderEarnings = snap.data()!["earnings"].toString();
+    });
+  }
+
+  getPerParcelDeliveryAmount()
+  {
+    FirebaseFirestore.instance
+        .collection("perDelivery")
+        .doc("alizeb438")
+        .get().then((snap)
+    {
+      perParcelDeliveryAmount = snap.data()!["amount"].toString();
+    });
   }
 
   @override
@@ -142,7 +172,7 @@ class _HomeScreenState extends State<HomeScreen>
         ),
         title: Text(
           "Welcome " +
-          sharedPreferences!.getString("name")!,
+              sharedPreferences!.getString("name")!,
           style: const TextStyle(
             fontSize: 25.0,
             color: Colors.black,

@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:ridersapp/assistantMethods/get_current_location.dart';
 import 'package:ridersapp/global/global.dart';
 import 'package:ridersapp/maps/map_utils.dart';
-import 'package:ridersapp/splash_screen/splashscreen.dart';
+
+import '../splash_screen/splashscreen.dart';
 
 
 class ParcelDeliveringScreen extends StatefulWidget
@@ -34,9 +35,12 @@ class ParcelDeliveringScreen extends StatefulWidget
 
 class _ParcelDeliveringScreenState extends State<ParcelDeliveringScreen>
 {
+  String orderTotalAmount = "";
 
   confirmParcelHasBeenDelivered(getOrderId, sellerId, purchaserId, purchaserAddress, purchaserLat, purchaserLng)
   {
+    String riderNewTotalEarningAmount = ((double.parse(previousRiderEarnings)) + (double.parse(perParcelDeliveryAmount))).toString();
+
     FirebaseFirestore.instance
         .collection("orders")
         .doc(getOrderId).update({
@@ -44,7 +48,7 @@ class _ParcelDeliveringScreenState extends State<ParcelDeliveringScreen>
       "address": completeAddress,
       "lat": position!.latitude,
       "lng": position!.longitude,
-      "earnings": "", //pay per parcel delivery amount
+      "earnings": perParcelDeliveryAmount, //pay per parcel delivery amount
     }).then((value)
     {
       FirebaseFirestore.instance
@@ -52,7 +56,7 @@ class _ParcelDeliveringScreenState extends State<ParcelDeliveringScreen>
           .doc(sharedPreferences!.getString("uid"))
           .update(
           {
-             "earnings": "", //total earnings amount of rider
+             "earnings": riderNewTotalEarningAmount, //total earnings amount of rider
           });
     }).then((value)
     {
@@ -61,7 +65,7 @@ class _ParcelDeliveringScreenState extends State<ParcelDeliveringScreen>
           .doc(widget.sellerId)
           .update(
           {
-            "earnings": "", //total earnings amount of seller
+            "earnings": (double.parse(orderTotalAmount) + (double.parse(previousEarnings))).toString(), //total earnings amount of seller
           });
     }).then((value)
     {
@@ -79,6 +83,44 @@ class _ParcelDeliveringScreenState extends State<ParcelDeliveringScreen>
     Navigator.push(context, MaterialPageRoute(builder: (c)=> const MySplashScreen()));
   }
 
+  getOrderTotalAmount()
+  {
+    FirebaseFirestore.instance
+        .collection("orders")
+        .doc(widget.getOrderId)
+        .get()
+        .then((snap)
+    {
+      orderTotalAmount = snap.data()!["totalAmount"].toString();
+      widget.sellerId = snap.data()!["sellerUID"].toString();
+    }).then((value)
+    {
+      getSellerData();
+    });
+  }
+
+  getSellerData()
+  {
+    FirebaseFirestore.instance
+        .collection("sellers")
+        .doc(widget.sellerId)
+        .get().then((snap)
+    {
+      previousEarnings = snap.data()!["earnings"].toString();
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    //rider location update
+    UserLocation uLocation = UserLocation();
+    uLocation.getCurrentLocation();
+
+    getOrderTotalAmount();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -88,8 +130,7 @@ class _ParcelDeliveringScreenState extends State<ParcelDeliveringScreen>
         children: [
 
           Image.asset(
-            "images/confirm1.png",
-            width: 350,
+            "images/confirm2.png",
           ),
 
           const SizedBox(height: 5,),
@@ -116,7 +157,7 @@ class _ParcelDeliveringScreenState extends State<ParcelDeliveringScreen>
                     SizedBox(height: 12,),
 
                     Text(
-                      "Show Cafe/Restaurant Location",
+                      "Show Delivery Drop-off Location",
                       style: TextStyle(
                         fontFamily: "Signatra",
                         fontSize: 18,
