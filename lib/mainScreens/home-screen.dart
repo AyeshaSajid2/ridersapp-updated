@@ -145,7 +145,7 @@ class _HomeScreenState extends State<HomeScreen>
   {
     FirebaseFirestore.instance
         .collection("perDelivery")
-        .doc("alizeb438")
+        .doc("as_swati12")
         .get().then((snap)
     {
       perParcelDeliveryAmount = snap.data()!["amount"].toString();

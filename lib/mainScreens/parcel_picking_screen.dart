@@ -6,7 +6,7 @@ import 'package:ridersapp/mainScreens/parcel-delivering-screen.dart';
 // import 'package:ridersapp/mainScreens/parcel_delivering_screen.dart';
 import 'package:ridersapp/maps/map_utils.dart';
 
-// import '../home_screen/parcel_delivering_screen.dart';
+ // import '../home_screen/parcel_delivering_screen.dart';
 
 class ParcelPickingScreen extends StatefulWidget
 {
@@ -44,8 +44,8 @@ class _ParcelPickingScreenState extends State<ParcelPickingScreen>
         .get()
         .then((DocumentSnapshot)
     {
-         sellerLat = DocumentSnapshot.data()!["lat"];
-         sellerLng = DocumentSnapshot.data()!["lng"];
+      sellerLat = DocumentSnapshot.data()!["lat"];
+      sellerLng = DocumentSnapshot.data()!["lng"];
     });
   }
 

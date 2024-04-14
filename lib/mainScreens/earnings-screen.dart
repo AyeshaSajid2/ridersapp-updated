@@ -8,7 +8,6 @@ class EarningsScreen extends StatefulWidget
 {
   const EarningsScreen({Key? key}) : super(key: key);
 
-
   @override
   _EarningsScreenState createState() => _EarningsScreenState();
 }
@@ -32,19 +31,19 @@ class _EarningsScreenState extends State<EarningsScreen>
               Text(
                 "€ " + previousRiderEarnings,
                 style: const TextStyle(
-                  fontSize: 80,
-                  color: Colors.white,
-                  fontFamily: "Signatra"
+                    fontSize: 80,
+                    color: Colors.white,
+                    fontFamily: "Signatra"
                 ),
               ),
 
               const Text(
                 "Total Earnings",
                 style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.grey,
-                    letterSpacing: 3,
-                    fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                  color: Colors.grey,
+                  letterSpacing: 3,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
 
